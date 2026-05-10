@@ -8,7 +8,7 @@ const getData = async (req, res, next) => {
       return res.status(404).json({ message: 'No professional data found' });
     }
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(lists[0]);
+    res.status(200).json(lists);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

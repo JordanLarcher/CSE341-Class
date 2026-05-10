@@ -7,7 +7,8 @@ async function apiFetch(url) {
 
 const getData = async () => {
   const data = await apiFetch('http://localhost:8000/professionals');
-  displayAllData(data);
+  const professional = Array.isArray(data) ? data[0] : data;
+  displayAllData(professional);
 };
 
 function displayAllData(data) {
