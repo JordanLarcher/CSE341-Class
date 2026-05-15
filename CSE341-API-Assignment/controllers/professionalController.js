@@ -33,4 +33,33 @@ const getUserById = async (req, res, next) => {
   }
 };
 
-module.exports = { getData, getUserById };
+
+const createProfessional = async (req, res, next) => {
+  try {
+    const professional = await Professional.createUser(req.body);
+    res.status(201).json(professional);
+  }catch (error) {
+    res.status(500).json({message: 'Server error'});
+  }
+};
+
+const updateProfessional = async (req, res, next) => {
+  try {
+    const result = await Professional.updateUser(req.params.id, req.body);
+    if(!result) return res.status(404).json({message: 'User not found'});
+    res.status(200).json(result);
+  }catch (error) {
+    res.status(500).json({message: 'Server error'});
+  }
+};
+
+const deleteProfessional = async (req, res, next) => {
+  try{
+    const result = await Professional.deleteUser(req.params.id);
+    if(!result) return res.status(404).json({message: 'User not found'});
+    res.status(200).json(result);
+  }catch (error) {
+    res.status(500).json({message: 'Server error'});
+  }
+};
+module.exports = { getData, getUserById, createProfessional, updateProfessional, deleteProfessional };

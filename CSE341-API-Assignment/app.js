@@ -9,8 +9,9 @@ const app = express();
 // Parse Json Bodies
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// CORS -- Required since the fronted html is opened from the filesystem
+// CORS -- Required since the fronted Html is opened from the filesystem
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');

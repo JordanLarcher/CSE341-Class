@@ -3,8 +3,7 @@ const { ObjectId } = require('mongodb');
 
 const getAll = async () => {
   const result = await mongodb.getDb().db().collection('user').find();
-  const lists = await result.toArray();
-  return lists;
+  return await result.toArray();
 };
 
 const getById = async (id) => {
@@ -13,4 +12,21 @@ const getById = async (id) => {
   return arr[0] || null;
 };
 
-module.exports = { getAll, getById };
+const createUser = async (data) => {
+  const result = await mongodb.getDb().db().collection('user').insertOne(data);
+  return { _id: result.insertedId, ...data};
+};
+
+const updateUser = async (id, data) => {
+  return await mongodb.getDb().db().collection('user').findOneAndUpdate(
+      {_id: new ObjectId(id)},
+      {$set: data},
+      {returnDocument: 'after'}
+  );
+};
+
+const deleteUser = async (id) => {
+  const result = await mongodb.getDb().db().collection('user').deleteOne({ _id: new ObjectId(id)});
+  return result.deletedCount > 0 ;
+}
+module.exports = { getAll, getById, createUser, updateUser, deleteUser };
