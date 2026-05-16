@@ -16,12 +16,9 @@ const options = {
         },
         servers: [
             {
-                url: 'http://localhost:8000',
-                description: 'Development server'
-            },
-            {
-                url: 'https://cse341-class-rz9h.onrender.com',
-                description: 'Production server'
+                url: process.env.NODE_ENV === 'production'
+                ? 'https://cse341-class-rz9h.onrender.com/'
+                    : 'http://localhost:8000'
             }
         ]
     },
