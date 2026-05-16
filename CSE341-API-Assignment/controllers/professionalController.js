@@ -10,7 +10,7 @@ const getData = async (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(lists);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    next(error);
   }
 };
 
@@ -29,7 +29,7 @@ const getUserById = async (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    next(error);
   }
 };
 
@@ -49,7 +49,7 @@ const updateProfessional = async (req, res, next) => {
     if(!result) return res.status(404).json({message: 'User not found'});
     res.status(200).json(result);
   }catch (error) {
-    res.status(500).json({message: 'Server error'});
+    next(error);
   }
 };
 
@@ -59,7 +59,7 @@ const deleteProfessional = async (req, res, next) => {
     if(!result) return res.status(404).json({message: 'User not found'});
     res.status(200).json(result);
   }catch (error) {
-    res.status(500).json({message: 'Server error'});
+    next(error);
   }
 };
 module.exports = { getData, getUserById, createProfessional, updateProfessional, deleteProfessional };
