@@ -1,8 +1,8 @@
 const { body } = require("express-validator");
 
 const createContact = [
-    body('firstname').trim().notEmpty().withMessage('First name is required'),
-    body('lastname').trim().notEmpty().withMessage('Last name is required'),
+    body('firstName').trim().notEmpty().withMessage('First name is required'),
+    body('lastName').trim().notEmpty().withMessage('Last name is required'),
     body('email').trim().isEmail().withMessage('Valid email is required'),
     body('phone').optional().trim().isString(),
     body('favoriteColor').optional().trim().isString(),

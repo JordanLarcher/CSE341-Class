@@ -1,4 +1,8 @@
 const MongoClient = require('mongodb').MongoClient;
+const dns = require('dns');
+
+// Node.js DNS SRV resolution fails on some Windows configs; use Google DNS as fallback
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 let _db;
 

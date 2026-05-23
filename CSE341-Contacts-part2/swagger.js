@@ -17,7 +17,7 @@ const options = {
         servers: [
             {
                 url: process.env.NODE_ENV === 'production'
-                ? 'https://cse341-class-rz9h.onrender.com/'
+                ? 'https://cse341-contacts-rsm9.onrender.com/' 
                     : 'http://localhost:8000'
             }
         ]
