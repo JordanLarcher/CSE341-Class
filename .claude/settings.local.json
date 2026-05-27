@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(timeout 15 npm run dev)",
+      "Bash(node -e \"const dns = require\\('dns'\\); console.log\\('DNS servers:', dns.getServers\\(\\)\\); dns.resolveSrv\\('_mongodb._tcp.cluster0.dtwg7p8.mongodb.net', \\(err, r\\) => { console.log\\('Error:', err\\); console.log\\('Result:', JSON.stringify\\(r, null, 2\\)\\); }\\);\")",
+      "Bash(node -e \"const dns = require\\('dns'\\); console.log\\('DNS servers:', dns.getServers\\(\\)\\);\")"
+    ]
+  }
+}
