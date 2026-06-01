@@ -3,7 +3,7 @@ const router = express.Router();
 const vulnerabilitiesController = require('../controller/vulnerabilitiesController');
 const validateId = require('../middleware/validateId');
 const { vulnerabilityValidationRules, validateVuln } = require('../middleware/validateVuln');
-
+const { isAuthenticated } = require('../middleware/authenticate');
 
 
 // Core collection endpoints 
@@ -141,7 +141,7 @@ router.get('/:id', validateId, vulnerabilitiesController.getById);
  *       400:
  *         description: Validation error
  */
-router.post('/', vulnerabilityValidationRules(), validateVuln, vulnerabilitiesController.createVulnerability);
+router.post('/', isAuthenticated, vulnerabilityValidationRules(), validateVuln, vulnerabilitiesController.createVulnerability);
 
 /**
  * @swagger
@@ -238,7 +238,7 @@ router.post('/', vulnerabilityValidationRules(), validateVuln, vulnerabilitiesCo
  *       404:
  *         description: Not found
  */
-router.put('/:id', validateId, vulnerabilityValidationRules(), validateVuln, vulnerabilitiesController.updateVulnerability);
+router.put('/:id', isAuthenticated, validateId, vulnerabilityValidationRules(), validateVuln, vulnerabilitiesController.updateVulnerability);
 
 /**
  * @swagger
@@ -257,6 +257,6 @@ router.put('/:id', validateId, vulnerabilityValidationRules(), validateVuln, vul
  *       404:
  *         description: Not found
  */
-router.delete('/:id', validateId, vulnerabilitiesController.deleteVulnerability);
+router.delete('/:id', isAuthenticated, validateId, vulnerabilitiesController.deleteVulnerability);
 
 module.exports = router;

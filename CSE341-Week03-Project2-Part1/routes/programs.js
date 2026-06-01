@@ -3,7 +3,7 @@ const router = express.Router();
 const programController = require('../controller/programController');
 const validateId = require('../middleware/validateId');
 const { programValidationRules, validateProgram } = require('../middleware/validateProgram');
-
+const { isAuthenticated } = require('../middleware/authenticate');
 
 
 // Core collection endpoints 
@@ -108,7 +108,7 @@ router.get('/:id', validateId, programController.getById);
  *       400:
  *         description: Validation error
  */
-router.post('/', programValidationRules(), validateProgram, programController.create);
+router.post('/', isAuthenticated, programValidationRules(), validateProgram, programController.create);
 
 /**
  * @swagger
@@ -181,7 +181,7 @@ router.post('/', programValidationRules(), validateProgram, programController.cr
  *       404:
  *         description: Not found
  */
-router.put('/:id', validateId, programValidationRules(), validateProgram, programController.update);
+router.put('/:id', isAuthenticated, validateId, programValidationRules(), validateProgram, programController.update);
 
 /**
  * @swagger
@@ -200,6 +200,6 @@ router.put('/:id', validateId, programValidationRules(), validateProgram, progra
  *       404:
  *         description: Not found
  */
-router.delete('/:id', validateId, programController.deleteProgram);
+router.delete('/:id', isAuthenticated, validateId, programController.deleteProgram);
 
 module.exports = router;
