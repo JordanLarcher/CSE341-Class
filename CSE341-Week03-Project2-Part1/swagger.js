@@ -4,8 +4,8 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Week 03 - Project 2 - Part 1 - Vulnerability Tracking API',
-            description: 'An architectural REST engine delivering security research tracking parameters across corporate targets and system exposures.',
+            title: 'Vulnerability Tracking API',
+            description: 'API for tracking security programs and vulnerabilities.',
             version: '1.0.0',
             contact: {
                 name: 'API Support',
@@ -27,8 +27,28 @@ const options = {
             {
                 name: 'Programs',
                 description: 'Bug bounty program endpoints'
+            },
+            {
+                name: 'Auth',
+                description: 'Authentication endpoints'
             }
-        ]
+        ],
+        components: {
+            securitySchemes: {
+                github_auth: {
+                    type: 'oauth2',
+                    flows: {
+                        authorizationCode: {
+                            authorizationUrl: 'https://github.com/login/oauth/authorize',
+                            tokenUrl: 'https://github.com/login/oauth/access_token',
+                            scopes: {
+                                'user:email': 'Access to user email'
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     apis: ['./routes/*.js']
 };

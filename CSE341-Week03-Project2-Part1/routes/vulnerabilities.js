@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const vulnerabilitiesController = require('../controller/vulnerabilitiesController');
-const validateId = require('../middleware/validateId');
+const { validateId } = require('../middleware/validateId');
 const { vulnerabilityValidationRules, validateVuln } = require('../middleware/validateVuln');
 const { isAuthenticated } = require('../middleware/authenticate');
 
@@ -31,7 +31,7 @@ const { isAuthenticated } = require('../middleware/authenticate');
  *       200:
  *         description: List of vulnerabilities
  */
-router.get('/', vulnerabilitiesController.getAllVulnerabilities);
+router.get('/', vulnerabilitiesController.getAll);
 
 /**
  * @swagger
@@ -58,6 +58,8 @@ router.get('/:id', validateId, vulnerabilitiesController.getById);
  *   post:
  *     tags: [Vulnerabilities]
  *     summary: Create a new vulnerability
+ *     security:
+ *       - github_auth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -141,7 +143,7 @@ router.get('/:id', validateId, vulnerabilitiesController.getById);
  *       400:
  *         description: Validation error
  */
-router.post('/', isAuthenticated, vulnerabilityValidationRules(), validateVuln, vulnerabilitiesController.createVulnerability);
+router.post('/', isAuthenticated, vulnerabilityValidationRules(), validateVuln, vulnerabilitiesController.create);
 
 /**
  * @swagger
@@ -149,6 +151,8 @@ router.post('/', isAuthenticated, vulnerabilityValidationRules(), validateVuln, 
  *   put:
  *     tags: [Vulnerabilities]
  *     summary: Update an existing vulnerability
+ *     security:
+ *       - github_auth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -238,7 +242,7 @@ router.post('/', isAuthenticated, vulnerabilityValidationRules(), validateVuln, 
  *       404:
  *         description: Not found
  */
-router.put('/:id', isAuthenticated, validateId, vulnerabilityValidationRules(), validateVuln, vulnerabilitiesController.updateVulnerability);
+router.put('/:id', isAuthenticated, validateId, vulnerabilityValidationRules(), validateVuln, vulnerabilitiesController.update);
 
 /**
  * @swagger
@@ -246,6 +250,8 @@ router.put('/:id', isAuthenticated, validateId, vulnerabilityValidationRules(), 
  *   delete:
  *     tags: [Vulnerabilities]
  *     summary: Delete a vulnerability
+ *     security:
+ *       - github_auth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -257,6 +263,6 @@ router.put('/:id', isAuthenticated, validateId, vulnerabilityValidationRules(), 
  *       404:
  *         description: Not found
  */
-router.delete('/:id', isAuthenticated, validateId, vulnerabilitiesController.deleteVulnerability);
+router.delete('/:id', isAuthenticated, validateId, vulnerabilitiesController.delete);
 
 module.exports = router;

@@ -3,7 +3,7 @@ const Vulnerabilities = require('../models/vulnerability');
 
 // Get all items 
 
-exports.getAllVulnerabilities = async (req, res, next) => {
+exports.getAll = async (req, res, next) => {
     try {
         let queryConditions = {};
 
@@ -25,10 +25,9 @@ exports.getAllVulnerabilities = async (req, res, next) => {
             queryConditions.cveId = { $exists: true, $ne:""};
         }
 
-        const vulns = await Vulnerabilities.find(queryConditions).sort({ dateDiscovered: -1 });
+        const vulns = await Vulnerabilities.find(queryConditions).sort({ createdAt: -1 });
         res.status(200).json({
             totalResults: vulns.length,
-            timestamp: new Date().toISOString(),
             vulnerabilities: vulns
         });
 
@@ -41,14 +40,14 @@ exports.getAllVulnerabilities = async (req, res, next) => {
 exports.getById = async (req, res, next) => {
     try {
         const vuln = await Vulnerabilities.findById(req.params.id);
-        if(!vuln) return res.status(404).json({ message: 'Vulnerability data entity not found' });
+        if(!vuln) return res.status(404).json({ message: 'Vulnerability not found' });
         res.status(200).json(vuln);
     }catch (err) {
         next(err);
     };
 };
 
-exports.createVulnerability = async (req, res, next) => {
+exports.create = async (req, res, next) => {
     try {
         const newVuln = new Vulnerabilities(req.body);
         const savedVuln = await newVuln.save();
@@ -59,7 +58,7 @@ exports.createVulnerability = async (req, res, next) => {
 };
 
 
-exports.updateVulnerability = async (req, res, next) => {
+exports.update = async (req, res, next) => {
     try {
         const updatedVuln = await Vulnerabilities.findByIdAndUpdate(
             req.params.id,
@@ -67,18 +66,18 @@ exports.updateVulnerability = async (req, res, next) => {
             {new: true, runValidators: true}
         );
 
-        if(!updatedVuln) return res.status(404).json({ message: 'Vulnerability data entity not found' });
+        if(!updatedVuln) return res.status(404).json({ message: 'Vulnerability not found' });
         res.status(200).json(updatedVuln);
     }catch (err) {
         next(err);
     };
 };
 
-exports.deleteVulnerability = async (req, res, next) => {
+exports.delete = async (req, res, next) => {
     try {
         const deletedVuln = await Vulnerabilities.findByIdAndDelete(req.params.id);
-        if(!deletedVuln) return res.status(404).json({message: 'Target entry not found'});
-        res.status(200).json({ message: 'Vulnerability tracking record deleted successfully'})
+        if(!deletedVuln) return res.status(404).json({message: 'Vulnerability not found'});
+        res.status(200).json({ message: 'Vulnerability deleted successfully'})
     }catch(error) {
         next(error);
     };

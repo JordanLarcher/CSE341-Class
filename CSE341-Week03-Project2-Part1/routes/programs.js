@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const programController = require('../controller/programController');
-const validateId = require('../middleware/validateId');
+const { validateId } = require('../middleware/validateId');
 const { programValidationRules, validateProgram } = require('../middleware/validateProgram');
 const { isAuthenticated } = require('../middleware/authenticate');
 
@@ -52,6 +52,8 @@ router.get('/:id', validateId, programController.getById);
  *   post:
  *     tags: [Programs]
  *     summary: Create a new program
+ *     security:
+ *       - github_auth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -116,6 +118,8 @@ router.post('/', isAuthenticated, programValidationRules(), validateProgram, pro
  *   put:
  *     tags: [Programs]
  *     summary: Update an existing program
+ *     security:
+ *       - github_auth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -189,6 +193,8 @@ router.put('/:id', isAuthenticated, validateId, programValidationRules(), valida
  *   delete:
  *     tags: [Programs]
  *     summary: Delete a program
+ *     security:
+ *       - github_auth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -200,6 +206,6 @@ router.put('/:id', isAuthenticated, validateId, programValidationRules(), valida
  *       404:
  *         description: Not found
  */
-router.delete('/:id', isAuthenticated, validateId, programController.deleteProgram);
+router.delete('/:id', isAuthenticated, validateId, programController.delete);
 
 module.exports = router;

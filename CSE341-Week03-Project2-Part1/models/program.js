@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 const programSchema = new mongoose.Schema({
     companyName: {
         type: String,
-        required: [true, 'Company entity configuration name is required'],
+        required: [true, 'Company name is required'],
         unique: true,
         trim: true,
     },
     bountyMax: {
         type: Number,
         default: 0,
-        min: [0, 'Bounty limits cannot be negative']
+        min: [0, 'Bounty cannot be negative']
     },
     isPlatformActive: {
         type: Boolean,
@@ -18,11 +18,11 @@ const programSchema = new mongoose.Schema({
     },
     scopeCovered: {
         type: [String],
-        required: [true, 'Target perimeter configurations must be declared']
+        required: [true, 'Scope covered is required']
     }
 },
 {
-    timestamps: true // This automatically creates 'createdAt' and 'updatedAt' fields
+    timestamps: true 
 });
 
 module.exports = mongoose.model('Program', programSchema, 'programs_record');

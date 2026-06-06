@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
@@ -12,7 +10,7 @@ const app = express();
 
 // Session
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'secret',
     resave: false,
     saveUninitialized: true,
 }));
@@ -32,6 +30,7 @@ passport.use(new GitHubStrategy({
     return done(null, profile);
 }));
 
+
 // Parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -44,8 +43,12 @@ app.use('/api/vulnerabilities', require('./routes/vulnerabilities'));
 app.use('/api/programs', require('./routes/programs'));
 app.use('/auth', require('./routes/auth'));
 
+app.get('/login', (req, res) => {
+    res.redirect('/auth/github');
+});
+
 app.get('/', (req, res) => {
-    res.send(req.isAuthenticated() ? req.user : null);
+    res.json(req.isAuthenticated() ? { message: `Logged in as ${req.user.displayName || req.user.username}` } : { message: "Logged out" });
 });
 
 

@@ -2,10 +2,10 @@ const { body, validationResult } = require('express-validator');
 
 const programValidationRules = () => {
     return [
-        body('companyName').notEmpty().withMessage('Company entity name configuration required').isString().trim(),
-        body('bountyMax').optional().isNumeric().withMessage('Bounty caps must resolve to standard numeric entries'),
-        body('isPlatformActive').optional().isBoolean().withMessage('Platform active state flags require a boolean format'),
-        body('scopeCovered').isArray({ min: 1 }).withMessage('Perimeter target arrays must register at least one target scope entry')
+        body('companyName').notEmpty().withMessage('Company name is required').isString().trim(),
+        body('bountyMax').optional().isNumeric().withMessage('Bounty max must be a number'),
+        body('isPlatformActive').optional().isBoolean().withMessage('isPlatformActive must be a boolean'),
+        body('scopeCovered').isArray({ min: 1 }).withMessage('At least one scope entry is required')
     ];
 };
 
