@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
 const errorHandler = require('./middleware/errorHandler');
@@ -7,12 +8,20 @@ const session = require('express-session');
 const GitHubStrategy = require('passport-github2').Strategy;
 const app = express();
 
+app.use(cors());
+
+// Trust proxy for Render (needed for secure cookies)
+app.set('trust proxy', 1);
 
 // Session
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret',
     resave: false,
     saveUninitialized: true,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    }
 }));
 
 // Passport
